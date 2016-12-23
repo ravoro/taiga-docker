@@ -1,9 +1,10 @@
-FROM python:3.4.3-onbuild
+FROM python:3.5
 MAINTAINER Ivan Pedrazas "ipedrazas@gmail.com"
 
 ENV DEBIAN_FRONTEND noninteractive
 
 ADD taiga-back /taiga
+ADD init.sh /taiga
 
 COPY docker-settings.py /taiga/settings/local.py
 COPY locale.gen /etc/locale.gen
@@ -20,7 +21,7 @@ ENV LANG en_US.UTF-8
 ENV LC_TYPE en_US.UTF-8
 ENV API_NAME localhost
 
-# RUN (cd /taiga && python manage.py collectstatic --noinput)
+RUN pip install -r /taiga/requirements.txt
 
 VOLUME ["/taiga/static","/taiga/media"]
 
